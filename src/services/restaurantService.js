@@ -18,9 +18,3 @@ export const addRestaurant = async (restaurantData) => {
   return response.data;
 };
 
-export const addRestaurant = async (restaurantData) => {
-  const response = await axios.post(`${BASE_URL}/restaurants`, restaurantData, {
-    headers: { Authorization: `Bearer ${getToken()}` }
-  });
-  return response.data;
-};
