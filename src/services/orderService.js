@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://fooddeliveryapp-backend-production-33e8.up.railway.app/api";
+const BASE_URL = "https://fooddeliveryapp-backend-production-33e8.up.railway.app/api";
 
 const getToken = () => localStorage.getItem("token");
 const getUserId = () => localStorage.getItem("userId");

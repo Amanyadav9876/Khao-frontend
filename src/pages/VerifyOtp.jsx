@@ -15,7 +15,7 @@ const VerifyOtp = () => {
     setError("");
     try {
       const response = await axios.post(
-        `http://fooddeliveryapp-backend-production-33e8.up.railway.app/api/auth/verify-otp?email=${email}&otp=${otp}`
+        `https://fooddeliveryapp-backend-production-33e8.up.railway.app/api/auth/verify-otp?email=${email}&otp=${otp}`
       );
       setSuccess(response.data.message);
       setTimeout(() => navigate("/login"), 2000); // redirect to login after 2s
