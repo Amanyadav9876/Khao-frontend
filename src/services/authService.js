@@ -15,4 +15,4 @@ export const signupUser = async (data) => {
 export const logoutUser = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("role");
-};
+}; 
