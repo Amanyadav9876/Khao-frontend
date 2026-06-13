@@ -35,6 +35,7 @@ const OrderTracking = () => {
       setLoading(false);
     }
   };
+  // eslint-disable-next-line react-hooks/exhaustive-deps ye line
 
   useEffect(() => {
     if (orderId) {
