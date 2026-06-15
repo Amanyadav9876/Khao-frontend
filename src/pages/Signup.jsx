@@ -11,24 +11,28 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
-  e.preventDefault();
-  setError(""); // clear previous error
-  try {
-    await signupUser({ name, email, password, role });
-    navigate("/verify-otp", { state: { email } }); // go to OTP page after signup
-  } catch (err) {
-    const status = err.response?.status || err.status;
-    const message = err.response?.data?.error || err.message;
-
-    if (status === 409) {
-      setError("Email already registered! Please login.");
-    } else if (status === 400) {
-      setError(message || "Invalid details. Please check and try again.");
-    } else {
-      setError("Server error. Please try again later.");
+    e.preventDefault();
+    setError("");
+    try {
+      const response = await signupUser({ name, email, password, role });
+      // Token save karo aur seedha home pe jao
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("role", response.role);
+      localStorage.setItem("userId", response.userId);
+      navigate("/"); // seedha home pe redirect
+    } catch (err) {
+      const status = err.response?.status || err.status;
+      const message = err.response?.data?.error || err.message;
+      if (status === 409) {
+        setError("Email already registered! Please login.");
+      } else if (status === 400) {
+        setError(message || "Invalid details. Please check and try again.");
+      } else {
+        setError("Server error. Please try again later.");
+      }
     }
-  }
-};
+  };
+
   return (
     <div style={{ maxWidth: "400px", margin: "100px auto", padding: "2rem" }}>
       <h2>KHAO 🍕 - Signup</h2>
@@ -63,7 +67,10 @@ const Signup = () => {
           <option value="USER">User</option>
           <option value="OWNER">Restaurant Owner</option>
         </select>
-        <button type="submit" style={{ width: "100%", padding: "0.5rem", background: "green", color: "white" }}>
+        <button
+          type="submit"
+          style={{ width: "100%", padding: "0.5rem", background: "green", color: "white" }}
+        >
           Signup
         </button>
       </form>
