@@ -112,7 +112,6 @@ const Home = () => {
           <span style={styles.locationChip}>📍 Delhi</span>
 
           {isLoggedIn ? (
-            /* Logged in — show profile */
             <div style={{ position: "relative" }}>
               <div
                 onClick={() => setShowDropdown(!showDropdown)}
@@ -126,7 +125,6 @@ const Home = () => {
                 onMouseOver={e => e.currentTarget.style.background = "rgba(255,255,255,0.14)"}
                 onMouseOut={e => e.currentTarget.style.background = "rgba(255,255,255,0.08)"}
               >
-                {/* Avatar */}
                 <div style={{
                   width: "32px", height: "32px", borderRadius: "50%",
                   background: photo ? "transparent" : `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryDark})`,
@@ -156,7 +154,6 @@ const Home = () => {
                   minWidth: "200px", overflow: "hidden", zIndex: 200,
                   border: "1px solid rgba(0,0,0,0.06)",
                 }}>
-                  {/* User info */}
                   <div style={{ padding: "1rem", borderBottom: "1px solid rgba(0,0,0,0.06)", background: "#FFF8F0" }}>
                     <div style={{ fontWeight: "800", color: COLORS.dark, fontSize: "0.95rem" }}>{name}</div>
                     <div style={{
@@ -168,12 +165,12 @@ const Home = () => {
                     }}>{role}</div>
                   </div>
 
-                  {/* Links */}
                   {[
                     { emoji: "🍽️", label: "Order Karo", action: goToDashboard },
                     { emoji: "👤", label: "Profile", action: () => { navigate("/profile"); setShowDropdown(false); } },
                     { emoji: "📦", label: "My Orders", action: () => { navigate("/orders"); setShowDropdown(false); } },
-                    { emoji: "🏪", label: "Add Restaurant", action: () => { navigate("/add-restaurant"); setShowDropdown(false); } },
+                    // Add Restaurant sirf OWNER ko dikhega
+                    ...(role === "OWNER" ? [{ emoji: "🏪", label: "Add Restaurant", action: () => { navigate("/add-restaurant"); setShowDropdown(false); } }] : []),
                   ].map((item, i) => (
                     <div key={i} onClick={item.action} style={{
                       padding: "0.75rem 1rem", cursor: "pointer",
@@ -189,7 +186,6 @@ const Home = () => {
                     </div>
                   ))}
 
-                  {/* Logout */}
                   <div onClick={handleLogout} style={{
                     padding: "0.75rem 1rem", cursor: "pointer",
                     fontSize: "0.9rem", fontWeight: "700", color: COLORS.primary,
@@ -205,14 +201,8 @@ const Home = () => {
               )}
             </div>
           ) : (
-            /* Not logged in */
+            /* Not logged in - Add Restaurant button hata diya */
             <>
-              <button
-                onClick={() => navigate("/add-restaurant")}
-                style={{ padding: "0.5rem 1.2rem", border: `2px solid ${COLORS.accent}`, background: "transparent", color: COLORS.accent, borderRadius: "8px", cursor: "pointer", fontWeight: "700", fontSize: "0.9rem", transition: "all 0.2s" }}
-                onMouseOver={e => { e.currentTarget.style.background = COLORS.accent; e.currentTarget.style.color = "white"; }}
-                onMouseOut={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = COLORS.accent; }}
-              >🏪 Add Restaurant</button>
               <button onClick={() => navigate("/login")} style={styles.btnOutline}
                 onMouseOver={e => { e.currentTarget.style.background = COLORS.primary; e.currentTarget.style.color = "white"; }}
                 onMouseOut={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = COLORS.primary; }}
@@ -231,7 +221,6 @@ const Home = () => {
         <div style={styles.heroTag}>🔥 India's #1 Food Delivery App</div>
         <h2 style={styles.heroTitle}>Bhook Lagi? 🍔<br />Hum Laaye!</h2>
         <p style={styles.heroSub}>Ghar baithe order karo — Fresh, Fast & Affordable!</p>
-
         <div style={styles.searchWrapper}>
           <input type="text" placeholder="🔍  Restaurant ya food dhundo..."
             value={search} onChange={e => setSearch(e.target.value)} style={styles.searchInput} />
@@ -240,7 +229,6 @@ const Home = () => {
             onMouseOut={e => e.currentTarget.style.background = COLORS.primary}
           >Dhundo →</button>
         </div>
-
         <div style={styles.statsRow}>
           {[{ num: "500+", label: "Restaurants" }, { num: "50K+", label: "Happy Customers" }, { num: "30 min", label: "Avg Delivery" }].map((s, i) => (
             <div key={i} style={styles.statItem}>
