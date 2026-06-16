@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -9,6 +10,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,20 +18,14 @@ const Login = () => {
     setError("");
     try {
       const response = await loginUser({ email, password });
-      console.log("Login response:", response);
 
       localStorage.setItem("token", response.token);
       localStorage.setItem("role", response.role);
       localStorage.setItem("email", email);
-
-      // userId — multiple fields try karo
-      if (response.id) localStorage.setItem("userId", response.id);
-      else if (response.userId) localStorage.setItem("userId", response.userId);
-      else if (response.user?.id) localStorage.setItem("userId", response.user.id);
-
-      // name save karo
       if (response.name) localStorage.setItem("name", response.name);
-      else if (response.user?.name) localStorage.setItem("name", response.user.name);
+      if (response.userId) localStorage.setItem("userId", response.userId);
+
+      login(response.token, response.role); // AuthContext update
 
       if (response.role === "ADMIN") navigate("/admin");
       else if (response.role === "OWNER") navigate("/owner");
