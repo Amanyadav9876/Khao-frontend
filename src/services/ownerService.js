@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = "https://fooddeliveryapp-backend-production-33e8.up.railway.app/api";
 
 const getToken = () => localStorage.getItem("token");
 
