@@ -15,11 +15,11 @@ const Signup = () => {
     setError("");
     try {
       const response = await signupUser({ name, email, password, role });
-      // Token save karo aur seedha home pe jao
       localStorage.setItem("token", response.token);
       localStorage.setItem("role", response.role);
       localStorage.setItem("userId", response.userId);
-      navigate("/"); // seedha home pe redirect
+      localStorage.setItem("name", response.name); // ← name save
+      navigate("/");
     } catch (err) {
       const status = err.response?.status || err.status;
       const message = err.response?.data?.error || err.message;
@@ -38,43 +38,27 @@ const Signup = () => {
       <h2>KHAO 🍕 - Signup</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSignup}>
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={name}
+        <input type="text" placeholder="Full Name" value={name}
           onChange={(e) => setName(e.target.value)}
-          style={{ display: "block", width: "100%", marginBottom: "1rem", padding: "0.5rem" }}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
+          style={{ display: "block", width: "100%", marginBottom: "1rem", padding: "0.5rem" }} />
+        <input type="email" placeholder="Email" value={email}
           onChange={(e) => setEmail(e.target.value)}
-          style={{ display: "block", width: "100%", marginBottom: "1rem", padding: "0.5rem" }}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
+          style={{ display: "block", width: "100%", marginBottom: "1rem", padding: "0.5rem" }} />
+        <input type="password" placeholder="Password" value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{ display: "block", width: "100%", marginBottom: "1rem", padding: "0.5rem" }}
-        />
-        <select
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          style={{ display: "block", width: "100%", marginBottom: "1rem", padding: "0.5rem" }}
-        >
+          style={{ display: "block", width: "100%", marginBottom: "1rem", padding: "0.5rem" }} />
+        <select value={role} onChange={(e) => setRole(e.target.value)}
+          style={{ display: "block", width: "100%", marginBottom: "1rem", padding: "0.5rem" }}>
           <option value="USER">User</option>
           <option value="OWNER">Restaurant Owner</option>
         </select>
-        <button
-          type="submit"
-          style={{ width: "100%", padding: "0.5rem", background: "green", color: "white" }}
-        >
+        <button type="submit"
+          style={{ width: "100%", padding: "0.5rem", background: "green", color: "white" }}>
           Signup
         </button>
       </form>
-      <p>Already account hai? <span style={{ color: "green", cursor: "pointer" }} onClick={() => navigate("/login")}>Login karo</span></p>
+      <p>Already account hai? <span style={{ color: "green", cursor: "pointer" }}
+        onClick={() => navigate("/login")}>Login karo</span></p>
     </div>
   );
 };
