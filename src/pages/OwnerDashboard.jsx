@@ -28,10 +28,11 @@ const OwnerDashboard = () => {
   const fetchRestaurants = async () => {
     try {
       const data = await getMyRestaurants();
-      setRestaurants(data);
-      if (data.length > 0) setSelectedRestaurant(data[0]);
+      setRestaurants(Array.isArray(data) ? data : []);
+      if (Array.isArray(data) && data.length > 0) setSelectedRestaurant(data[0]);
     } catch (err) {
       console.error("Restaurants fetch nahi hue!", err);
+      setRestaurants([]);
     } finally {
       setLoading(false);
     }
@@ -40,9 +41,10 @@ const OwnerDashboard = () => {
   const fetchOrders = async (restaurantId) => {
     try {
       const data = await getRestaurantOrders(restaurantId);
-      setOrders(data);
+      setOrders(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Orders fetch nahi hue!", err);
+      setOrders([]);
     }
   };
 
